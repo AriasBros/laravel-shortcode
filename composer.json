@@ -13,6 +13,10 @@
         "php": ">=5.6.4"
     },
     "autoload": {
+        "files": [
+            "src/AriasBros/Shortcode/Helpers/shortcodes.php",
+            "src/AriasBros/Shortcode/Helpers/wordpress.php"
+        ],
         "psr-4": {
             "AriasBros\\Shortcode\\": "src/AriasBros/Shortcode/"
         }
