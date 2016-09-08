@@ -1,0 +1,20 @@
+{
+    "name": "ariasbros/laravel-shortcode",
+    "description": "Laravel Shortcode Service",
+    "keywords": ["laravel", "shortcode", "shortcodes", "service"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Arias Vázquez",
+            "email": "david@ariasbros.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "AriasBros\\Shortcode\\": "src/AriasBros/Shortcode/"
+        }
+    }
+}
