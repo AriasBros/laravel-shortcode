@@ -80,7 +80,7 @@ class ShortcodeFactory implements Factory
         $shortcodes = $this->tags();
     
         if (strpos($content, '[') === false) {
-            return false;
+            return $content;
         }
     
         if (empty($shortcodes) || !is_array($shortcodes)) {
