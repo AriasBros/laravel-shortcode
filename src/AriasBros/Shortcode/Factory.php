@@ -2,12 +2,15 @@
 
 namespace AriasBros\Shortcode;
 
-use AriasBros\Shortcode\Contracts\Factory;
+use AriasBros\Shortcode\Contracts\Factory as FactoryContract;
 
 /**
+ * Class Factory
+ *
+ * @package AriasBros\Shortcode
  * @since 1.0.0
  */
-class ShortcodeFactory implements Factory
+class Factory implements FactoryContract
 {   
     /**
      * @since 1.0.0
@@ -28,20 +31,61 @@ class ShortcodeFactory implements Factory
     }
 
     /**
-     * @param  string  $shortcodeTag The tag for the shortcode.
-     * @param  string  $callback The class of the shortcode.
-     *
-     * @return Illuminate\View\View
-     *
+     * @deprecated
      * @since 1.0.0
+     *
+     * @param string|array $shortcodeTag The tag for the shortcode.
+     * @param string $callback The composer class of the shortcode.
      */
-    public function composer($shortcodeTag, $callback)
-    {        
-        $this->shortcodes[$shortcodeTag] = $callback; 
+    public function composer($shortcodeTag, $callback = null)
+    {
+    	$this->bind($shortcodeTag, $callback);
+    }
 
-        $this->app->singleton($callback, function ($app) use ($callback) {
-            return new $callback();
-        });
+    /**
+     * @since 1.0.0
+     *
+     * @param string|array $shortcodeTag The tag for the shortcode.
+     * @param string $callback The composer class of the shortcode.
+     */
+    public function bind($shortcodeTag, $callback = null)
+    {
+    	if (is_array($shortcodeTag)) {
+			foreach ($shortcodeTag as $key => $value) {
+				if (is_string($key)) {
+					if (is_array($value)) {
+						foreach ($value as $tag) {
+							$this->bindShortcode($tag, $key);
+						}
+					} else {
+						$this->bindShortcode($value, $key);
+					}
+				} else {
+					$this->bindShortcode($value, $callback);
+				}
+			}
+	    } elseif (is_string($shortcodeTag)) {
+			$this->bindShortcode($shortcodeTag, $callback);
+	    }
+    }
+
+	/**
+	 * @since 1.0.0
+	 *
+	 * @param string|array $shortcodeTag The tag for the shortcode.
+	 * @param string $callback The composer class of the shortcode.
+	 */
+    private function bindShortcode($shortcodeTag, $callback = null)
+    {
+	    if ($callback === null) {
+		    $callback = Composer::class;
+	    }
+
+	    $this->shortcodes[$shortcodeTag] = $callback;
+
+	    $this->app->singleton("shortcode-{$shortcodeTag}", function ($app) use ($shortcodeTag, $callback) {
+		    return new $callback($shortcodeTag);
+	    });
     }
     
     /**
@@ -119,8 +163,7 @@ class ShortcodeFactory implements Factory
     
         $tag = $m[2];    
         $attrs = shortcode_parse_atts($m[3]);
-        $callback = $this->callbackForTag($tag);
-        $shortcode = app()->make($callback);
+        $shortcode = app()->make("shortcode-{$tag}");
     
         return $shortcode->compose($attrs);
     }

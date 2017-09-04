@@ -3,6 +3,7 @@
 /**
  * @access public
  * @since 1.0.0
+ * @return \AriasBros\Shortcode\Contracts\Factory
  */
 function shortcode()
 {
@@ -12,6 +13,7 @@ function shortcode()
 /**
  * @access public
  * @since 1.0.0
+ * @return array
  */
 function get_shortcodes()
 {
@@ -21,6 +23,7 @@ function get_shortcodes()
 /**
  * @access public
  * @since 1.0.0
+ * @return string
  */
 function do_shortcode($content)
 {

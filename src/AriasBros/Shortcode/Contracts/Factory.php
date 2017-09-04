@@ -3,19 +3,29 @@
 namespace AriasBros\Shortcode\Contracts;
 
 /**
+ * Interface Factory
+ *
+ * @package AriasBros\Shortcode\Contracts
  * @since 1.0.0
  */
 interface Factory
-{   
+{
+	/**
+	 * @since 1.0.0
+	 *
+	 * @param string|array $shortcodeTag The tag for the shortcode.
+	 * @param string $callback The composer class of the shortcode.
+	 */
+    public function bind($shortcodeTag, $callback = null);
+
     /**
-     * @param  string  $shortcodeTag The tag for the shortcode.
-     * @param  string  $callback The class of the shortcode.
-     *
-     * @return Illuminate\View\View
-     *
-     * @since 1.0.0
-     */
-    public function composer($shortcodeTag, $callback);
+     * @deprecated
+	 * @since 1.0.0
+	 *
+	 * @param string|array $shortcodeTag The tag for the shortcode.
+	 * @param string $callback The composer class of the shortcode.
+	 */
+    public function composer($shortcodeTag, $callback = null);
     
     /**
      * @return array
