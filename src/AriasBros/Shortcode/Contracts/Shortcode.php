@@ -17,5 +17,5 @@ interface Shortcode
 	 * @param array $attributes
 	 * @return View
 	 */
-    public function compose($attributes = null);
+    public function compose(array $attributes = []);
 }

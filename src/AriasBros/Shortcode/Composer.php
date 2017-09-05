@@ -36,7 +36,7 @@ class Composer implements ComposerContract
 	 * @param array $attributes
 	 * @return View
 	 */
-	public function compose($attributes = null)
+	public function compose(array $attributes = [])
 	{
 		$view = "{$this->root()}.{$this->shortcode_tag}";
 

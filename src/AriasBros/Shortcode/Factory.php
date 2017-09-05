@@ -164,7 +164,10 @@ class Factory implements FactoryContract
         $tag = $m[2];    
         $attrs = shortcode_parse_atts($m[3]);
         $shortcode = app()->make("shortcode-{$tag}");
-    
+
+	    $attrs = !is_array($attrs) ? [] : $attrs;
+        $attrs["content"] = isset( $m[5] ) ? $m[5] : null;
+
         return $shortcode->compose($attrs);
     }
 }
